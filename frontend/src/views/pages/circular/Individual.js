@@ -1,7 +1,6 @@
-import React from 'react'
+import {useEffect,useState} from 'react';
 import logo from './images/bylclogo.png'
-import slide1 from './images/slide1.jpg'
-import slide2 from './images/slide2.jpg'
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
     CAvatar,
@@ -33,31 +32,75 @@ import {
     CContainer,
     CNavbarBrand,
     CImage,
-    CCarousel,
+    CFormTextarea,
     CCarouselItem,
     CFooter,
     CLink,
   } from '@coreui/react'
 
 const individual = () => {
+    const navigate = useNavigate();
+    const[record,setRecord] = useState([])
+
+    const params = useParams(); // Get ID from URL
+
+    //Get Specific Job Details
+    const JobDetailById = async () =>
+    {
+      await fetch(`http://localhost:4000/api/viewJob/${params.id}`)
+      .then(resposne=> resposne.json())
+          .then(res=>setRecord(res))
+    }
+
+    useEffect(()=> {
+      JobDetailById(params.id);
+    }, [params.id])
+
+
+    //Takes to Apply Form Page when the clicking the button
+    const ApplyForm = async (id) =>{
+        navigate(`/jobDetails/form/${id}`);
+    }
+
+    const ColoredLine = ({ color }) => (
+      <hr
+          style={{
+              color: color,
+              backgroundColor: color,
+              height: 3
+          }}
+      />
+    );
+
+
+
   return (
     <div>
       <CNavbar expand="sm" style={{ backgroundImage: `linear-gradient(to right, rgba(29,43,29,1) 0%, rgba(24,121,9,1) 37%, rgba(0,255,81,1) 100% ` }}>
-            <CContainer fluid>
-                <CNavbarBrand>
-                    <CImage src={logo} width={160} height={50} />
-                </CNavbarBrand>
-            </CContainer>
+          <CContainer fluid>
+            <CNavbarBrand>
+              <CImage src={logo} width={160} height={50} />
+            </CNavbarBrand>
+          </CContainer>
       </CNavbar>
 
       <div class="container-sm mt-3">
         
-        <div class="d-flex justify-content-center mt-5">
-          <div><h1 style={{color:'darkgreen', fontWeight:'bold'}}>JOB DESCRIPTION</h1></div>  
-        </div>
+        <Link to='/career'><CButton color='secondary' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill">Go Back</CButton></Link>
 
-        <div class=" mt-5">
-            <div><h4 style={{color:'black', fontWeight:'bold'}}>Position: </h4><h5 style={{color:'darkblue', fontWeight:'bold'}}>Master Trainer</h5></div>
+        <div class="d-flex justify-content-center mt-2">
+          <div><h1 style={{color:'darkgreen', fontWeight:'bold'}}>JOB DESCRIPTION</h1></div>      
+        </div>
+        
+
+        <div class=" mt-5 d-flex justify-content-between">
+            <div>
+              <h4 style={{color:'black', fontWeight:'bold'}}>Position </h4>
+              <h5 style={{color:'red', fontWeight:'bold'}}>{record.designation}, {record.department}</h5>
+            </div>
+            <div>
+              <CButton color='info' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill" onClick={(e)=>ApplyForm(record._id)}>Go to Application</CButton><br/>
+            </div>
         </div>
 
         <div class=" mt-5">
@@ -66,85 +109,92 @@ const individual = () => {
         </div>
 
         <div class=" mt-5">
-            <div><h4 style={{color:'black', fontWeight:'bold'}}>Purpose:</h4></div>
-            <div style={{color:'black'}}>The Master Trainer will work under the USAID Bijoyee Activity project of BYLC, which is the strategic partner of CARE Bangladesh, including some other partner organizations. The project focused on a comprehensive Initiative focused on empowering and engaging young people in Bangladesh. It aims to address various aspects of youth development, including , building soft skills, creating environment for employment, entrepreneurship, civic engagement, and social inclusion as stated in project documents. The Master Trainer will be responsible for overseeing the implementation and coordination of the capacity building, learning, facilitating and training activity with collaboration of all engaged stakeholders. S/He will ensure its successful execution and timely completion of work under the guidance of Youth Skills specialist, Skills and Employment manager. This position will be based in Dhaka North and South, Chattogram, Khulna, Rangpur and Mymensingh, North Hub with frequent travel to two Spokes (sub hub office) in Gazipur and Manikgonj district under Dhaka North Hub of USAID Bijoyee Activity Project, BYLC.</div>   
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Purpose</h4></div>
+            <div style={{color:'black'}}>{record.job_description}</div>   
         </div>
 
         <div class=" mt-5">
-            <div><h4 style={{color:'black', fontWeight:'bold'}}>Education:</h4></div>
-            <ul style={{color:'black'}}>
-                <li>Master's degree in Social Science/MED background with good academic result</li>
-            </ul> 
-        </div>
-
-        <div class=" mt-5">
-            <div><h4 style={{color:'black', fontWeight:'bold'}}>Experience</h4></div>
-            <ul style={{color:'black'}}>
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Major responsibilities (detailed job description will be available for short listed candidates)</h4></div>
+            <a style={{whiteSpaces: 'pre-wrap'}}><div dangerouslySetInnerHTML={{ __html: record.major_responsibilities }}></div></a>
+            
+            {/* <div style={{color:'black'}}>{record.major_responsibilities}</div>  */}
+            {/* <ul style={{color:'black'}}>
                 <li>At least 03 year(s) similar experiences</li>
                 <li>Experience of project field management and training in NGO/ development organization</li>
                 <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
                 <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
-            </ul> 
+            </ul>  */}
         </div>
 
-
-        <div class="d-flex justify-content-center mt-5">
-          <div><h2 style={{color:'darkgreen', fontWeight:'bold'}}>Application Form</h2></div>  
+        <div class=" mt-5">
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Education</h4></div>
+            <div style={{color:'black'}}>{record.education_requirement}</div> 
+            {/* <ul style={{color:'black'}}>
+                <li>Master's degree in Social Science/MED background with good academic result</li>
+            </ul>  */}
         </div>
 
-        <div class="container-sm mt-3 border shadow">
-
-        <CForm className="row g-3 mt-3" >
-          <CCol md={6}>
-            <CFormInput type="email" id="inputEmail4" label="Full Name *" />
-          </CCol>
-          <CCol md={6}>
-            <CFormInput type="email" id="inputEmail4" label="Email *" />
-          </CCol>
-
-          <CCol md={4}>
-            <CFormInput type="phone" id="inputEmail4" label="Phone *" />
-          </CCol>
-          <CCol md={4}>
-            <CFormInput type="email" id="inputEmail4" label="University *" />
-          </CCol>
-          <CCol md={4}>
-            <CFormInput type="number" id="inputEmail4" label="Work Experience (in years)" />
-          </CCol>
-
-          <CCol xs={12}>
-            <CFormInput id="inputAddress" label="Address" placeholder="1234 Main St"/>
-          </CCol>
-          <CCol md={6}>
-            <CFormInput id="inputCity" label="City"/>
-          </CCol>
-          <CCol md={4}>
-            <CFormSelect id="inputState" label="State">
-              <option>Choose...</option>
-              <option>...</option>
-            </CFormSelect>
-          </CCol>
-          <CCol md={2}>
-            <CFormInput id="inputZip" label="Zip" />
-          </CCol>
-          <CCol xs={12}>
-            <CFormLabel htmlFor="formFile">Resume *</CFormLabel>
-            <CFormInput type="file" id="formFile"/>
-          </CCol>
-          <CCol xs={12}>
-            <CFormCheck type="checkbox" id="gridCheck" label="Check to confirm"/>
-          </CCol>
-          <CCol xs={12} class="mb-3">
-            <center><CButton type="submit"> Confirm and Apply</CButton></center>
-          </CCol>
-        </CForm>
-
+        <div class=" mt-5">
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Experience</h4></div>
+            <div style={{color:'black'}}>{record.experience_details}</div>
+            {/* <ul style={{color:'black'}}>
+                <li>At least 03 year(s) similar experiences</li>
+                <li>Experience of project field management and training in NGO/ development organization</li>
+                <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
+                <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
+            </ul>  */}
         </div>
 
+        <div class=" mt-5">
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Required Technical Skills</h4></div>
+            <div style={{color:'black'}}>{record.technical_skills}</div>
+            {/* <ul style={{color:'black'}}>
+                <li>At least 03 year(s) similar experiences</li>
+                <li>Experience of project field management and training in NGO/ development organization</li>
+                <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
+                <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
+            </ul>  */}
+        </div>
 
+        <div class=" mt-5">
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Required Soft Skills</h4></div>
+            <div style={{color:'black'}}>{record.soft_skills}</div>
+            {/* <ul style={{color:'black'}}>
+                <li>At least 03 year(s) similar experiences</li>
+                <li>Experience of project field management and training in NGO/ development organization</li>
+                <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
+                <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
+            </ul>  */}
+        </div>
+
+        <div class=" mt-5">
+            <div><h4 style={{color:'black', fontWeight:'bold'}}>Benefits</h4></div>
+            <div style={{color:'black'}}>{record.benefit}</div>
+            {/* <ul style={{color:'black'}}>
+                <li>At least 03 year(s) similar experiences</li>
+                <li>Experience of project field management and training in NGO/ development organization</li>
+                <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
+                <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
+            </ul>  */}
+        </div>
+
+        <div class=" mt-5 d-flex justify-content-between">
+            <div>
+              <a><h4 style={{color:'black', fontWeight:'bold'}}>Employment type </h4></a> 
+              <center><a style={{color:'black', fontWeight:'bold'}}>{record.employment_type}</a></center>
+            </div>
+            <div>
+              <h4 style={{color:'black', fontWeight:'bold'}}>Application deadline </h4>
+              <center><a style={{color:'black', fontWeight:'bold'}}>{record.application_deadline}</a></center> 
+            </div>
+        </div>
+      
+        <CCol xs={12} class="mb-4 mt-4">
+            <center><CButton color='info' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill" onClick={(e)=>ApplyForm(record._id)}>Go to Application</CButton></center>
+        </CCol>
+
+        <div class='mt-5 mb-5'> <ColoredLine color="darkgreen" /></div>
       </div>
-
-
 
       <CFooter style={{color:'black'}} class="d-flex justify-content-between mt-5">
             <div>

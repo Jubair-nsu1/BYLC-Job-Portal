@@ -1,7 +1,7 @@
 const { text } = require('body-parser');
 const mongoose = require('mongoose')
 
-const JobData = mongoose.Schema(
+const JobSchema = mongoose.Schema(
     {
         designation: {
             type: String,
@@ -23,6 +23,14 @@ const JobData = mongoose.Schema(
             type: String,
             required: true,
         },
+        experience_year: {
+            type: Number,
+            required: true,
+        },
+        age_limit: {
+            type: String,
+            required: true,
+        },
         application_deadline: {
             type: String,
             required: true,
@@ -31,12 +39,8 @@ const JobData = mongoose.Schema(
             type: String,
             required: true,
         },
-        experience_year: {
-            type: Number,
-            required: true,
-        },
-        vacancies: {
-            type: Number,
+        major_responsibilities: {
+            type: String,
             required: true,
         },
         education_requirement: {
@@ -47,25 +51,8 @@ const JobData = mongoose.Schema(
             type: String,
             required: true,
         },
-        //Core Responsibilities
-        strategic: {
-            type: String,
-            required: true,
-        },
-        operational: {
-            type: String,
-            required: true,
-        },
-        people_development: {
-            type: String,
-            required: true,
-        },
 
         technical_skills: {
-            type: String,
-            required: true,
-        },
-        behavioral_skills: {
             type: String,
             required: true,
         },
@@ -73,10 +60,17 @@ const JobData = mongoose.Schema(
             type: String,
             required: true,
         },
-    },
-    { collection: 'job-info' }
+        benefit: {
+            type: String,
+            required: true,
+        },
+        postDate:{
+            type: Date,
+            required:true,
+        },
+    }
 );
 
-const model = mongoose.model('JobData' , JobData)
+const JobData = mongoose.model('JobData' , JobSchema)
 
-module.exports = model
+module.exports = JobData

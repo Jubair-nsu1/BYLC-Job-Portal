@@ -1,14 +1,18 @@
 const { text } = require('body-parser');
 const mongoose = require('mongoose')
 
-const CandidateData = mongoose.Schema(
+const CandidateSchema = mongoose.Schema(
     {
         //Personal
-        name: {
+        position: {
             type: String,
             required: true,
         },
-        gender: {
+        department: {
+            type: String,
+            required: true,
+        },
+        fullname: {
             type: String,
             required: true,
         },
@@ -16,51 +20,86 @@ const CandidateData = mongoose.Schema(
             type: String,
             required: true,
         },
-        contact: {
+        phone: {
             type: String,
             required: true,
         },
+        dob: {
+            type: String,
+            required: true,
+        },
+        gender: {
+            type: String,
+            required: true,
+        },
+        address: {
+            type: String,
+            required: true,
+        },
+
         //Educational
         university: {
             type: String,
             required: true,
         },
-        passing_year: {
+        subject: {
             type: String,
             required: true,
         },
-        major: {
+        degree: {
             type: String,
             required: true,
         },
-        result: {
+        cgpa: {
             type: String,
             required: true,
         },
-        //Experience
+        uni_passing_year: {
+            type: String,
+            required: true,
+        },
+        hsc_passing_year: {
+            type: String,
+            required: true,
+        },
+
+
+        current_employer: {
+            type: String,
+            required: true,
+        },        
         work_experience: {
             type: String,
             required: true,
         },
-
-        //Others
-        ethnicity: {
+        current_designation: {
             type: String,
             required: true,
         },
-        disability: {
+        current_salary: {
             type: String,
             required: true,
         },
-
         resume_link: {
             type: String,
             required: true,
-        }
-    },
-    { collection: 'candidate-info' }
+        },
+        cover_letter: {
+            type: String,
+            required: true,
+        },
+        expected_salary: {
+            type: String,
+            required: true,
+        },
+        knowing_media: {
+            type: String,
+            required: true,
+        },
+
+    }
 );
 
-const model = mongoose.model('CandidateData' , CandidateData)
+const CandidateData = mongoose.model('CandidateData' , CandidateSchema)
 
-module.exports = model
+module.exports = CandidateData

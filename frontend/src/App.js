@@ -18,6 +18,7 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 const Individual = React.lazy(() => import('./views/pages/circular/Individual'))
 const Total = React.lazy(() => import('./views/pages/circular/Total'))
+const Form = React.lazy(() => import('./views/pages/circular/Form'))
 
 class App extends Component {
   render() {
@@ -25,9 +26,12 @@ class App extends Component {
       <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
-            <Route exact path="/jobDetails" name="Job Details" element={<Individual />} />
-            <Route exact path="/career" name="Career" element={<Total />} /> 
-                       
+            {/* My created page */}
+            <Route exact path="/career" name="Career" element={<Total />} />  
+            <Route exact path="/jobDetails/:id" name="Job Details" element={<Individual />} />
+            <Route exact path="/jobDetails/form/:id" name="Form" element={<Form />} />
+            
+
             <Route exact path="/login" name="Login Page" element={<Login />} />
             <Route exact path="/register" name="Register Page" element={<Register />} />
             <Route exact path="/404" name="Page 404" element={<Page404 />} />

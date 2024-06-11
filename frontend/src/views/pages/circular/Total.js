@@ -1,7 +1,9 @@
-import React from 'react'
+import {useEffect,useState} from 'react';
 import logo from './images/bylclogo.png'
 import slide1 from './images/slide1.jpg'
 import slide2 from './images/slide2.jpg'
+import { Link, Navigate, useNavigate } from "react-router-dom";
+const moment = require('moment');
 
 import {
     CAvatar,
@@ -36,6 +38,24 @@ import {
   } from '@coreui/react'
 
 const Total = () => {
+    const navigate = useNavigate();
+    const[record,setRecord] = useState([])
+
+    //Takes to Job Details Page when the clicking the Job Title
+    const JobDetails = async (id) =>{
+        navigate(`/jobDetails/${id}`);
+    }
+
+    //Get All Jobs data 
+    const getAllJobsData = async () =>{
+      await fetch('http://localhost:4000/api/viewJobs')
+        .then(resposne=> resposne.json())
+        .then(res=>setRecord(res))
+    }
+
+    useEffect(() => {
+        getAllJobsData();
+      },[])
   
     return (
         <div>
@@ -59,68 +79,39 @@ const Total = () => {
         <div class="d-flex justify-content-center mt-5">
             <div><h1 style={{color:'darkgreen', fontWeight:'bold'}}>JOIN OUR TEAM</h1></div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
+        <div class="d-flex justify-content-center mt-3 mb-5">
             <div><h3 style={{color:'green', fontWeight:'bold'}}>VACANCIES</h3></div>
         </div>
-
+        
         <div class="container-sm mt-5 shadow">
         <CAccordion flush>
-            <CAccordionItem itemKey={1}>
-                <CAccordionHeader ><strong style={{color:'darkblue'}} >Master Trainer (10)</strong></CAccordionHeader>
-                <CAccordionBody>
-                    <div class="d-flex justify-content-between">
-                        <div><a style={{fontWeight:'bold'}}>Employment type: </a><a>Full Time</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>Dhaka(HQ)</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>31 Jan 2024</a></div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-3">
-                        <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>On site</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Experience: </a><a>3 years</a></div>
-                    </div>
-                </CAccordionBody>
-            </CAccordionItem>
-            <CAccordionItem itemKey={2}>
-                <CAccordionHeader><strong style={{color:'darkblue'}}>Manager, Finance & Accounts</strong></CAccordionHeader>
-                <CAccordionBody href="#">
-                    <div class="d-flex justify-content-between">
-                        <div><a style={{fontWeight:'bold'}}>Employment type: </a><a>Full Time</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>Dhaka(HQ)</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>31 Jan 2024</a></div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-3">
-                        <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>On site</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Experience: </a><a>3 years</a></div>
-                    </div>
-                </CAccordionBody>
-            </CAccordionItem>
-            <CAccordionItem itemKey={3}>
-                <CAccordionHeader><strong style={{color:'darkblue'}}>Executive, BYLC Ventures</strong></CAccordionHeader>
-                <CAccordionBody>
-                    <div class="d-flex justify-content-between">
-                        <div><a style={{fontWeight:'bold'}}>Employment type: </a><a>Full Time</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>Dhaka(HQ)</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>31 Jan 2024</a></div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-3">
-                        <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>On site</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Experience: </a><a>3 years</a></div>
-                    </div>
-                </CAccordionBody>
-            </CAccordionItem>
-            <CAccordionItem itemKey={4}>
-                <CAccordionHeader><strong style={{color:'darkblue'}}>Executive, Communication</strong></CAccordionHeader>
-                <CAccordionBody>
-                    <div class="d-flex justify-content-between">
-                        <div><a style={{fontWeight:'bold'}}>Employment type: </a><a>Full Time</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>Dhaka(HQ)</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>31 Jan 2024</a></div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-3">
-                        <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a >On site</a></div>
-                        <div><a style={{fontWeight:'bold'}}>Experience: </a><a>3 years</a></div>
-                    </div>
-                </CAccordionBody>
-            </CAccordionItem>
+        
+        {record.length>0
+            ? 
+            record.map((item,index)=>
+                        <CAccordionItem itemKey={index}>
+                            <CAccordionHeader ><strong style={{color:'darkgreen'}} >{item.designation}, {item.department}</strong></CAccordionHeader>
+                            <CAccordionBody style={{ cursor: 'pointer' }} onClick={(e)=>JobDetails(item._id)}>
+                                <div class="d-flex justify-content-between">
+                                    <div><a style={{fontWeight:'bold'}}>Job Nature: </a><a>{item.job_nature}</a></div>
+                                    <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>{item.job_location}</a></div>
+                                    <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>{moment(item.application_deadline).format('DD MMM YYYY')}</a></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>{item.employment_type}</a></div>
+                                    <div><a style={{fontWeight:'bold'}}>Experience Needed: </a><a>{item.experience_year} years</a></div>
+                                </div>
+                            </CAccordionBody>
+                        </CAccordionItem>
+            )
+            : 
+            <div class="container-sm border d-flex justify-content-center mt-5 mb-5 ">
+                <h2 style={{color:'red', fontWeight:'bold'}}>No Jobs Available</h2>
+            </div>
+            
+        }
+        
+        
         </CAccordion>
         </div>
 

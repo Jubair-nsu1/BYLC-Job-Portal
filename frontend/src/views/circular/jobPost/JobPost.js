@@ -25,35 +25,37 @@ import {
 
 
 const JobPost = () => {
-
+  
     //Values & Set Values
     const [designation,setDesignation] = useState('');
     const [department,setDepartment] = useState('');
     const [employmentType,setEmploymentType] = useState('');
     const [jobNature,setJobNature] = useState('');
     const [jobLocation,setJobLocation] = useState('');
-    const [ageLimit,setageLimit] = useState('');
-    const [experienceYear,setExperienceYear] = useState('');
+    const [ageLimit,setAgeLimit] = useState('');
+    const [requiredExperience,setRequiredExperience] = useState('');
     const [applDeadline,setApplDeadline] = useState('');
     const [jobDescription,setJobDescription] = useState('');
+    const [majorResponsibilities,setMajorResponsibilities] = useState('');
     const [educationalReq,setEducationalReq] = useState('');
     const [experienceDetails,setExperienceDetails] = useState('');
     const [techSkill,setTechSkill] = useState('');
-    const [behavioralSkill,setBehavioralSkill] = useState('');
     const [softSkill,setSoftSkill] = useState('');
+    const [benefit,setBenefit] = useState('');
 
     const [submitted, setSubmitted] = useState(false);
     const [valid, setValid]     = useState(false);
     const [error, setError]     = useState(null);
+    const [message, setMessage] = useState("");
 
 
   async function postJob(e) {
     e.preventDefault();
 
-      if (designation && department && employmentType && jobNature && jobLocation && experienceYear && vacancies && applDeadline && jobDescription && educationalReq && experienceDetails && techSkill && behavioralSkill && softSkill && strategic && operational && peopleDevelopment) {  
+      if (designation && department && employmentType && jobNature && jobLocation && requiredExperience && ageLimit && applDeadline && jobDescription && majorResponsibilities && educationalReq && experienceDetails && techSkill  && softSkill && benefit) {  
         // setValid(true);
   
-        const response  = await fetch("http://localhost:1337/api/newTicket", {
+        const response  = await fetch("http://localhost:4000/api/jobPost", {
           method:'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -64,25 +66,32 @@ const JobPost = () => {
             employmentType,
             jobNature,
             jobLocation,
-            experienceYear,
+            requiredExperience,
             ageLimit,
             applDeadline,
             jobDescription,
+            majorResponsibilities,
             educationalReq,
             experienceDetails,
             techSkill,
-            behavioralSkill,
             softSkill,
-            strategic,
-            operational,
-            peopleDevelopment,
+            benefit,
           }),
         })
         const data = await response.json()
+
+        if (data) {
+          if (data.error) {
+            setMessage(data.error);
+          } 
+          else {
+            setMessage("Job Posted!");
+          }
+        }
+
       }
   
-      //Set Form submitted true
-      // setSubmitted(true);
+
   };
 
 
@@ -91,8 +100,9 @@ const JobPost = () => {
       <center><h3>Create New Circular</h3></center>
 
       <div class="container-sm mt-4 mb-5 border shadow">
+        
 
-        <div class="mt-2"><h5>Basic Requirements</h5></div>
+        <div class="mt-3"><h5>Basic Requirements</h5></div>
         
         <CForm className="row g-3 mt-3" onSubmit={postJob}>
           <CCol md={6}>
@@ -143,7 +153,7 @@ const JobPost = () => {
           </CCol>
 
           <CCol md={4}>
-            <CFormInput type="number" id="exp_year" label="Experience Year" name="exp_year" value={experienceYear} onChange={e => setExperienceYear(e.target.value)} required/>
+            <CFormInput type="number" id="exp_year" label="Experience Year" name="exp_year" value={requiredExperience} onChange={e => setRequiredExperience(e.target.value)} required/>
           </CCol>
           <CCol md={4}>
             <CFormInput type="text
@@ -158,6 +168,9 @@ const JobPost = () => {
             <CFormTextarea  id="job_description" label="Purpose/Job Description" placeholder="Write here.." name="job_description" value={jobDescription} onChange={e => setJobDescription(e.target.value)}/>
           </CCol>
           <CCol xs={12}>
+            <CFormTextarea  id="major_responsibilities" label="Core/Major Responsibilities" placeholder="Write here.." name="major_responsibilities" value={majorResponsibilities} onChange={e => setMajorResponsibilities(e.target.value)}/>
+          </CCol>
+          <CCol xs={12}>
             <CFormTextarea  id="educational_req" label="Education Requirements" placeholder="Write here.." name="educational_req" value={educationalReq} onChange={e => setEducationalReq(e.target.value)}/>
           </CCol>
           <CCol xs={12}>
@@ -168,13 +181,16 @@ const JobPost = () => {
           <div class="mt-5"><h5>Additional Requirements</h5></div>
 
           <CCol xs={12}>
-            <CFormTextarea  id="tech_skill" label="Required technical skills (Optional)" placeholder="Write here.." name="tech_skill" value={techSkill} onChange={e => setTechSkill(e.target.value)}/>
+            <CFormTextarea  id="tech_skill" label="Required technical skills" placeholder="Write here.." name="tech_skill" value={techSkill} onChange={e => setTechSkill(e.target.value)}/>
           </CCol>
           <CCol xs={12}>
-            <CFormTextarea  id="behavioral_skill" label="Core behavioral skills (Optional)" placeholder="Write here.." name="behavioral_skill" value={behavioralSkill} onChange={e => setBehavioralSkill(e.target.value)}/>
+            <CFormTextarea  id="soft_skill" label="Required soft skills" placeholder="Write here.." name="soft_skill" value={softSkill} onChange={e => setSoftSkill(e.target.value)}/>
           </CCol>
+
+          {/* Optional fields */}
+          <div class="mt-5"><h5>Benefits</h5></div>
           <CCol xs={12}>
-            <CFormTextarea  id="soft_skill" label="Required soft skills (Optional)" placeholder="Write here.." name="soft_skill" value={softSkill} onChange={e => setSoftSkill(e.target.value)}/>
+            <CFormTextarea  id="benefits" label="Salary/Benefits" placeholder="Write here.." name="benefits" value={benefit} onChange={e => setBenefit(e.target.value)}/>
           </CCol>
 
 
@@ -184,6 +200,7 @@ const JobPost = () => {
           <CCol xs={12} class="mb-3">
             <center><CButton type="submit">Submit</CButton></center>
           </CCol>
+          <center>{message && <span style={{color:'red',fontWeight:'bold'}}>{message}</span>}</center>
 
         </CForm>
 

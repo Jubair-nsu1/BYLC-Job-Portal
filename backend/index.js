@@ -1,27 +1,41 @@
 const express = require('express');
 const cors = require('cors')
-const mongoose = require('mongoose')
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
+
+//Route
+const jobRoutes = require("./routes/circularRoute");
 
 
-//Files
-const JobData = require('./models/jobData.model')
-const connectDB = require('./config/db')
-
-//Connection to Database
-connectDB();
-
-
-//Middleware
+//Server setup
 const app = express();
-// app.use(express.urlencoded({ extended : false }) );
-app.use(express.json());
-// app.use(cors());
-
-
-app.get("/", (req, res) => {
-    res.send("I will be shown on the Browser");
-    console.log("I will be shown on the Terminal");
+const PORT = 4000;
+app.listen(PORT, (err) => {
+    if (err) {
+        console.log(err);
+    }
+    else{
+        console.log(`Server running on port ${PORT}`);
+    }
 });
 
 
-app.listen(5000);
+//Database Connection
+const connectDB = require("./config/db");
+connectDB();
+
+
+// Use CORS middleware to allow requests from the frontend
+app.use(
+    cors({
+      origin: ["http://localhost:3000"],
+      methods: ["GET", "POST"],
+      credentials: true,
+    })
+);
+app.use(cookieParser());
+app.use(express.json());
+
+//Call all Routes
+app.use("/api", jobRoutes); //All the routes defined in auth.js will be prefixed with /api/auth
+
