@@ -18,6 +18,7 @@ const CandidateSchema = mongoose.Schema(
         },
         email: {
             type: String,
+            unique: true,
             required: true,
         },
         phone: {
@@ -25,7 +26,7 @@ const CandidateSchema = mongoose.Schema(
             required: true,
         },
         dob: {
-            type: String,
+            type: Date,
             required: true,
         },
         gender: {
@@ -62,8 +63,6 @@ const CandidateSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-
-
         current_employer: {
             type: String,
             required: true,
@@ -80,10 +79,10 @@ const CandidateSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        resume_link: {
-            type: String,
-            required: true,
-        },
+        // resume_link: {
+        //     type: String,
+        //     required: true,
+        // },
         cover_letter: {
             type: String,
             required: true,
@@ -93,6 +92,10 @@ const CandidateSchema = mongoose.Schema(
             required: true,
         },
         knowing_media: {
+            type: String,
+            required: true,
+        },
+        apply_date:{
             type: String,
             required: true,
         },

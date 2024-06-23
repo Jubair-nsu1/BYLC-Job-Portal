@@ -5,10 +5,12 @@ const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
 
-// Circular
-const JobPost = React.lazy(() => import('./views/circular/jobPost/JobPost'))
-const JobApplication = React.lazy(() => import('./views/circular/jobApplication/JobApplication'))
-const CreatedJobs = React.lazy(() => import('./views/circular/createdJobs/CreatedJobs'))
+// Circular - 
+const JobPost = React.lazy(() => import('./views/circular/jobPost/JobPost')) // Jobs Created by HR
+const CreatedJobs = React.lazy(() => import('./views/circular/createdJobs/CreatedJobs')) // View Created Jobs
+const AllCandidates = React.lazy(() => import('./views/circular/jobApplication/JobApplication')) // View All candidates applied for jobs
+const SpecCandidate = React.lazy(() => import('./views/circular/jobApplication/SpecCandidate')) // View Specific candidate from all candidates
+const TalentPipeline = React.lazy(() => import('./views/circular/jobApplication/talentPipeline')) // Move eligible candidate to Talent Pipeline
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -103,8 +105,11 @@ const routes = [
   { path: '/widgets', name: 'Widgets', element: Widgets },
 
   { path: '/circular/jobPost', name: 'JobPost', element: JobPost },
-  { path: '/circular/jobApplication', name: 'JobApplication', element: JobApplication },
   { path: '/circular/createdJobs', name: 'CreatedJobs', element: CreatedJobs },
+  { path: '/circular/jobApplication/allCandidates', name: 'AllCandidates', element: AllCandidates },
+  { path: '/circular/jobApplication/:id', name: 'SpecCandidates', element: SpecCandidate },
+  { path: '/circular/jobApplication/talentPipeline', name: 'TalentPipeline', element: TalentPipeline },
+  
 ]
 
 // CreatedJobs

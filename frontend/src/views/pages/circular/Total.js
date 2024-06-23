@@ -1,7 +1,9 @@
 import {useEffect,useState} from 'react';
-import logo from './images/bylclogo.png'
 import slide1 from './images/slide1.jpg'
 import slide2 from './images/slide2.jpg'
+
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 const moment = require('moment');
 
@@ -59,13 +61,7 @@ const Total = () => {
   
     return (
         <div>
-        <CNavbar expand="sm" style={{ backgroundImage: `linear-gradient(to right, rgba(29,43,29,1) 0%, rgba(24,121,9,1) 37%, rgba(0,255,81,1) 100% ` }}>
-            <CContainer fluid>
-                <CNavbarBrand>
-                    <CImage src={logo} width={160} height={50} />
-                </CNavbarBrand>
-            </CContainer>
-        </CNavbar>
+        <Navbar/>
 
         <CCarousel controls indicators>
             <CCarouselItem>
@@ -118,7 +114,7 @@ const Total = () => {
         <div class="d-flex justify-content-center mt-5">
             <div><h3 style={{color:'green', fontWeight:'bold'}}>ADDITIONAL INFORMATION</h3></div>
         </div>
-        <div class="container-sm mt-3">
+        <div class="container-sm mt-3 mb-5">
             <ul style={{color:'black'}}>
                 <li>Bangladesh Youth Leadership Center (BYLC) tries to ensure a diverse workforce by providing equal  opportunities to everyone, irrespective of race, age, gender, sexual orientation, HIV status, class, ethnicity, disability, location, and religion</li>
                 <li>BYLC follows a strict zero-tolerance on any type of abuse towards children and vulnerable adults</li>
@@ -126,15 +122,8 @@ const Total = () => {
                 <li>BYLC does not charge any fee at any stage of the recruitment process (application, interview meeting, or processing)</li>
             </ul>
         </div>
-
-        <CFooter style={{color:'black'}} class="d-flex justify-content-between mt-5">
-            <div>
-                <span>&copy;Job Portal @ 2023 Copyright</span>
-            </div>
-            <div>
-                <span>Powered by BYLC IT</span>
-            </div>
-        </CFooter>
+        
+        <Footer/>
 
         </div>
         

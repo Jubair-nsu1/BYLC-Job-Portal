@@ -49,12 +49,12 @@ const CreatedJobs = () => {
     <div>
       <center><h3>View New Applications</h3></center>
 
-      <div class="container mt-4">
-        <div class="container border shadow row mt-2 ">
-              <h5 class="mt-3 text-secondary" style={{fontWeight:'bold'}}>
-               Created Job Circulars 
-              </h5>
+      <div class="container border shadow row mt-3 ">
+          <h5 class="mt-3 text-secondary" style={{fontWeight:'bold'}}>
+            Created Job Circulars 
+          </h5>
                 <div class="mt-5">
+                  <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead class="thead-light">
                           <tr>
@@ -85,9 +85,9 @@ const CreatedJobs = () => {
                           )}
                         </tbody>
                     </table>
+                  </div>
                 </div>
-            </div>
-        </div>
+      </div>
 
     </div>
   )

@@ -12,7 +12,9 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
-  cilLibrary
+  cilLibrary,
+  cilPeople,
+  cibAzurePipelines
 
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
@@ -28,9 +30,10 @@ const _nav = [
       text: 'NEW',
     },
   },
+
   {
     component: CNavTitle,
-    name: 'Circular',
+    name: 'Jobs',
   },
   {
     component: CNavItem,
@@ -40,15 +43,73 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Created Jobs',
+    name: 'Manage Jobs',
     to: '/circular/createdJobs',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
   },
+
+  {
+    component: CNavTitle,
+    name: 'Candidates',
+  },
   {
     component: CNavItem,
-    name: 'Job Applications',
-    to: '/circular/jobApplication',
+    name: 'All Candidates',
+    to: '/circular/jobApplication/allCandidates',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Talent Pipeline',
+    to: '/circular/jobApplication/talentPipeline',
+    icon: <CIcon icon={cibAzurePipelines} customClassName="nav-icon" />,
+  },
+
+  {
+    component: CNavTitle,
+    name: 'Insights',
+  },
+  {
+    component: CNavItem,
+    name: 'Candidates',
+    to: '/insights/jobApplication',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Interviews',
+    to: '/insights/jobApplication',
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Jobs',
+    to: '/insights/jobApplication',
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
+  },
+
+
+  {
+    component: CNavTitle,
+    name: 'Company',
+  },
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/insights/jobApplication',
     icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Organization',
+    to: '/insights/jobApplication',
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'View Career Page',
+    to: '/insights/jobApplication',
+    icon: <CIcon icon={cilCalculator} customClassName="nav-icon" />,
   },
 
 

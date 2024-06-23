@@ -73,6 +73,18 @@ const deleteJob = async (req, res) => {
     }   
 }
 
+const countTotalJobs = async (req, res) => {
+    try {
+        //const query = { state: "Solved" };
+        const totalJobs = await JobData.countDocuments();
+        res.status(200).json(totalJobs);
+    } 
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
 
 module.exports = {
     jobPost,
@@ -80,4 +92,5 @@ module.exports = {
     viewJobsById,
     updateJob,
     deleteJob,
+    countTotalJobs,
 }
