@@ -1,56 +1,20 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler')
-const Admin = require('../models/admin.model')
+const AdminData = require('../models/admin.model')
 
 
-const registerUser = asyncHandler(async (req, res) => {
+const loginUser = async (req, res) => {
     const { email, password } = req.body
-  
-    if (!email || !password) {
-        res.status(400)
-        throw new Error('Please add all fields')
-    }
-  
-    // Check if user exists
-    const userExists = await Admin.findOne({ email })
-  
-    if (userExists) {
-      res.status(400)
-      throw new Error('User already exists')
-    }
-  
-    // Hash password
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-  
-    // Create user
-    const user = await Admin.create({
-      email,
-      password: hashedPassword,
-    })
-  
-    if (user) {
-      res.status(201).json({
-        _id: user.id,
-        name: user.name,
-        email: user.email,
-        token: generateToken(user._id),
-      })
-    } else {
-      res.status(400)
-      throw new Error('Invalid user data')
-    }
-})
+    console.log(req.body)
 
-
-const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body
-  
     // Check for user email
-    const user = await User.findOne({ email })
+    const user = await AdminData.findOne({ email })
   
     if (user && (await bcrypt.compare(password, user.password))) {
+      console.log('Fullname: '+user.fullname)
+      console.log('UserID: '+user.id)
+      console.log('Email: '+user.email)
+      console.log('Token: '+generateToken(user._id))
       res.json({
         _id: user.id,
         email: user.email,
@@ -58,23 +22,18 @@ const loginUser = asyncHandler(async (req, res) => {
       })
     } else {
       res.status(400)
-      throw new Error('Invalid credentials')
+      res.json({ status: 'error', error: 'Invalid credentials' })
+      console.log('Cant process')
     }
-})
-
-const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user)
-})
+}
   
 // Generate JWT
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-      expiresIn: '30d',
+    return jwt.sign({ id }, 'secret123', {
+      expiresIn: '1d',
     })
 }
   
 module.exports = {
-    registerUser,
     loginUser,
-    getMe,
 }

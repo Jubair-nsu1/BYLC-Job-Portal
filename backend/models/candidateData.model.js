@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 
 const CandidateSchema = mongoose.Schema(
     {
-        //Personal
+        job_id: {
+            type: String,
+            required: true,
+        },
         position: {
             type: String,
             required: true,
@@ -18,7 +21,6 @@ const CandidateSchema = mongoose.Schema(
         },
         email: {
             type: String,
-            unique: true,
             required: true,
         },
         phone: {
@@ -59,33 +61,26 @@ const CandidateSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        hsc_passing_year: {
+        isFresher: {
             type: String,
-            required: true,
         },
         current_employer: {
             type: String,
-            required: true,
         },        
         work_experience: {
             type: String,
-            required: true,
         },
         current_designation: {
             type: String,
-            required: true,
         },
         current_salary: {
             type: String,
-            required: true,
         },
-        // resume_link: {
-        //     type: String,
-        //     required: true,
-        // },
+        resume_file: {
+            type: String,
+        },
         cover_letter: {
             type: String,
-            required: true,
         },
         expected_salary: {
             type: String,

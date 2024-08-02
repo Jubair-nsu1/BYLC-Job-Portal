@@ -5,7 +5,7 @@ require("dotenv").config();
 
 //Route
 const jobRoutes = require("./routes/circularRoute");
-
+const userRoute = require("./routes/userRoutes");
 
 //Server setup
 const app = express();
@@ -29,13 +29,17 @@ connectDB();
 app.use(
     cors({
       origin: ["http://localhost:3000"],
-      methods: ["GET", "POST"],
+      methods: ["GET", "POST","PUT","PATCH","DELETE","HEAD"],
       credentials: true,
+      optionSuccessStatus:200,
     })
-);
+);  
+
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("*/files", express.static("files")); //static makes files accessible from anywhere
 
 //Call all Routes
 app.use("/api", jobRoutes); //All the routes defined in auth.js will be prefixed with /api/auth
-
+app.use("/api", userRoute);

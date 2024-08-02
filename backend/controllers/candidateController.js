@@ -1,26 +1,14 @@
 //---- Model ----
+const nodemailer = require("nodemailer");
 const CandidateData = require('../models/candidateData.model')
-
-//---- Multer ----
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../resumes");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, uniqueSuffix + file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
 
 
 const postCandidateData = async (req, res) => {
-    console.log(req.body)
+        console.log(req.body)
 
     try{
         await CandidateData.create({
+            job_id: req.body.jobId,
             position: req.body.position,
             department: req.body.department,
 			fullname: req.body.fullname,
@@ -34,21 +22,53 @@ const postCandidateData = async (req, res) => {
             degree: req.body.degree,
             cgpa: req.body.cgpa,
             uni_passing_year: req.body.uniPassingYear,
-            hsc_passing_year: req.body.hscPassingYear,
+            isFresher: req.body.isFresher,
             current_employer: req.body.employerName,
             work_experience: req.body.workExperience,
             current_designation: req.body.currentDesignation,
             current_salary: req.body.currentSalary,
-            //resume_link: req.body.fileLink,
+            resume_file: req.file.filename,
             cover_letter: req.body.coverLetter,
             expected_salary: req.body.expectedSalary,
             knowing_media: req.body.knowingMedia,
             apply_date: new Date(),
 		})
 		res.json({ status: 'ok' })
+
+        // ------ EMAIL NOTIFICATION ----------------------------------
+        //Creating a Mail Transport System
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        });
+
+		//Sending mail to user
+        const mailtoUser = {
+            from: process.env.EMAIL,
+            to: req.body.email,
+            subject: 'Your application to '+req.body.position+' at BYLC' ,
+            html: '<p>Dear '+req.body.fullname+',</p> <p>Thank you for applying to '+req.body.position+', '+req.body.department+' at Bangladesh Youth Leadership Center.</p> <a>The Recruitment Department has received your application and will be reviewing it shortly. We appreciate the time and effort you have taken to reach out to us, and we look forward to exploring the possibility of having you join our team.</a><br> <br> <p>Regards,</p> <a style="font-weight:bold">HR Department</a><br><a style="font-style: italic ; font-size:12px ; font-color:lightgrey">Bangladesh Youth Leadership Center</a><br><a style="font-style: italic ; font-size:12px ; font-color:lightgrey">Medona Tower (Level 12), 28 Mohakhali C/A, Dhaka 1213.</a>'
+        };
+		
+		transporter.sendMail(mailtoUser, (error, info) => {
+            if (error) {
+                //console.log("Error" + error)
+				return;
+            } else {
+                //console.log("Successfully Email sent:" + info.response);
+       			transporter.close();
+                res.status(201).json({status:201,info})
+            }
+        })
+        // ------ End of EMAIL NOTIFICATION --------------------------
+
     }
     catch(error){
         res.json({ status: 'error', error: 'Cant Process' })
+        console.log(error)
     }
 }
 
@@ -75,12 +95,34 @@ const viewCandidateById = async (req, res) => {
 
 const countTotalCandidates = async (req, res) => {
     try {
-        //const query = { state: "Solved" };
         const totalCandidates = await CandidateData.countDocuments();
         res.status(200).json(totalCandidates);
     } 
     catch (err) {
         console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+const countCandidatesPerJob = async (req, res) => {
+    try {
+        const query = { job_id: req.params.id };
+        const totalCandidates = await CandidateData.countDocuments(query);
+        res.status(200).json(totalCandidates);
+    } 
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+const viewCandidatesPerJob = async (req, res) => {
+    try {
+        const query = { job_id: req.params.id };
+        const totalCandidates = await CandidateData.find(query).sort({_id:-1});
+        res.status(200).json(totalCandidates);
+    } 
+    catch (err) {
         res.status(500).json(err);
     }
 }
@@ -91,4 +133,6 @@ module.exports = {
     viewCandidateData,
     viewCandidateById,
     countTotalCandidates,
+    countCandidatesPerJob,
+    viewCandidatesPerJob
 }

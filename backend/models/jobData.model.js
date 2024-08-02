@@ -60,6 +60,10 @@ const JobSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        duration: {
+            type: String,
+            required: true,
+        },
         benefit: {
             type: String,
             required: true,
