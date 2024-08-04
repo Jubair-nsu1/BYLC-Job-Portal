@@ -87,18 +87,18 @@ const individual = () => {
 
         <CRow>
           <CCol md={9}>
-            <div class="mt-5">
+            <div class="mt-5" >
               <div style={{color:'darkgreen', fontWeight:'bold', fontSize:'48px'}}>{record.designation}</div>      
             </div>
 
             <div class=" mt-5">
               <div><h4 style={{color:'black', fontWeight:'bold'}}>About BYLC</h4></div>
-              <div style={{color:'black'}}>Bangladesh Youth Leadership Center (BYLC), the country’s first leadership institute, exists to build leadership skills in youth from diverse backgrounds, instill values of empathy, tolerance, and inclusiveness in them to jobs and entrepreneurial opportunities. Our goal is to enable our alumni to have a high impact in the public, private and civil sectors. All of BYLC’s efforts aim to strengthen prosperity, justice, and inclusiveness in societies worldwide.</div>         
+              <div style={{color:'black', fontFamily:'revert'}}>Bangladesh Youth Leadership Center (BYLC), the country’s first leadership institute, exists to build leadership skills in youth from diverse backgrounds, instill values of empathy, tolerance, and inclusiveness in them to jobs and entrepreneurial opportunities. Our goal is to enable our alumni to have a high impact in the public, private and civil sectors. All of BYLC’s efforts aim to strengthen prosperity, justice, and inclusiveness in societies worldwide.</div>         
             </div>
 
             <div class=" mt-5">
               <div><h4 style={{color:'black', fontWeight:'bold'}}>Purpose</h4></div>
-              <div style={{color:'black'}}>{record.job_description}</div>   
+              <div style={{color:'black', fontFamily:'revert'}}>{record.job_description}</div>   
             </div>
           </CCol>
           <CCol md={3}>
@@ -113,29 +113,25 @@ const individual = () => {
                 </div>
                 <div class="mt-3">
                   <a style={{color:'red', fontWeight:'bold'}}>Department:</a><br/>
-                  <a>{record.department}</a>
+                  <a style={{color:'black', fontFamily:'revert'}}>{record.department}</a>
                 </div>
                 <div class="mt-3">
                   <a style={{color:'red', fontWeight:'bold'}}>Employment Type:</a><br/>
-                  <a>{record.employment_type}</a>
+                  <a style={{color:'black', fontFamily:'revert'}}>{record.employment_type}</a>
                 </div>
                 <div class="mt-3">
                   <a style={{color:'red', fontWeight:'bold'}}>Location:</a><br/>
-                  <a>{record.job_location}</a>
+                  <a style={{color:'black', fontFamily:'revert'}}>{record.job_location}</a>
                 </div>
                 <div class="mt-3">
                   <a style={{color:'red', fontWeight:'bold'}}>Workplace Type:</a><br/>
-                  <a>{record.job_nature}</a>
+                  <a style={{color:'black', fontFamily:'revert'}}>{record.job_nature}</a>
                 </div>
                 <div class="mt-3 mb-4">
                   <a style={{color:'red', fontWeight:'bold'}}>Compentation:</a><br/>
-                  <a>Negotiable</a>
+                  <a style={{color:'black', fontFamily:'revert'}}>Negotiable</a>
                 </div>
               </div>
-            </div>
-
-            <div class='mb-3'>
-              <center><Link to='/career'><a style={{color:'darkgreen', fontWeight:'bold'}}>View all opportunities at BYLC</a></Link></center>
             </div>
             
           </CCol>
@@ -144,62 +140,36 @@ const individual = () => {
           <CCol md={9}>
             <div class=" mt-5">
                 <div><h4 style={{color:'black', fontWeight:'bold'}}>Major responsibilities (detailed job description will be available for short listed candidates)</h4></div>
-                <a style={{whiteSpaces: 'pre-wrap'}}><div dangerouslySetInnerHTML={{ __html: record.major_responsibilities }}></div></a>
-                
-                {/* <div style={{color:'black'}}>{record.major_responsibilities}</div>  */}
-                {/* <ul style={{color:'black'}}>
-                    <li>At least 03 year(s) similar experiences</li>
-                    <li>Experience of project field management and training in NGO/ development organization</li>
-                    <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
-                    <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
-                </ul>  */}
+                <a style={{color:'black', fontFamily:'revert', whiteSpace: 'pre-wrap'}}><div dangerouslySetInnerHTML={{ __html: record.major_responsibilities }}></div></a>
             </div>
 
             <div class=" mt-5">
                 <div><h4 style={{color:'black', fontWeight:'bold'}}>Education</h4></div>
-                <div style={{color:'black'}}>{record.education_requirement}</div> 
-                {/* <ul style={{color:'black'}}>
-                    <li>Master's degree in Social Science/MED background with good academic result</li>
-                </ul>  */}
+                <div style={{color:'black', fontFamily:'revert', whiteSpace: 'pre-wrap'}}>{record.education_requirement}</div> 
             </div>
 
             <div class=" mt-5">
                 <div><h4 style={{color:'black', fontWeight:'bold'}}>Experience</h4></div>
-                <div style={{color:'black'}}>{record.experience_details}</div>
-                {/* <ul style={{color:'black'}}>
-                    <li>At least 03 year(s) similar experiences</li>
-                    <li>Experience of project field management and training in NGO/ development organization</li>
-                    <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
-                    <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
-                </ul>  */}
+                <div style={{color:'black', fontFamily:'revert', whiteSpace: 'pre-wrap'}}>{record.experience_details}</div>
             </div>
 
             <div class=" mt-5">
                 <div><h4 style={{color:'black', fontWeight:'bold'}}>Required Technical Skills</h4></div>
-                <div style={{color:'black'}}>{record.technical_skills}</div>
-                {/* <ul style={{color:'black'}}>
-                    <li>At least 03 year(s) similar experiences</li>
-                    <li>Experience of project field management and training in NGO/ development organization</li>
-                    <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
-                    <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
-                </ul>  */}
+                <div style={{color:'black', fontFamily:'revert', whiteSpace: 'pre-wrap'}}>{record.technical_skills}</div>
             </div>
 
             <div class=" mt-5">
                 <div><h4 style={{color:'black', fontWeight:'bold'}}>Required Soft Skills</h4></div>
-                <div style={{color:'black'}}>{record.soft_skills}</div>
-                {/* <ul style={{color:'black'}}>
-                    <li>At least 03 year(s) similar experiences</li>
-                    <li>Experience of project field management and training in NGO/ development organization</li>
-                    <li>Experience on training, learning and development management for USAID Funded project is mandatory</li>
-                    <li>Experiences of youth development sector including liaison with GOB and NGOs</li>
-                </ul>  */}
+                <div style={{color:'black', fontFamily:'revert', whiteSpace: 'pre-wrap'}}>{record.soft_skills}</div>
             </div>
           </CCol>
 
           <CCol xs={12} class="mb-4 mt-4">
               <center><CButton color='info' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill" onClick={(e)=>ApplyForm(record._id)}>Apply Now</CButton></center>
           </CCol>
+          <div class='mb-3'>
+              <center><Link to='/career'><a style={{color:'darkgreen', fontWeight:'bold'}}>View all opportunities at BYLC</a></Link></center>
+          </div>
 
         </CRow>
 

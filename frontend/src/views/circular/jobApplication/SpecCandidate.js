@@ -1,30 +1,52 @@
 import {useEffect,useState} from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {SERVER_URL} from '../../../services/helper'
 const moment = require('moment');
-
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import pdf2 from '../images/pdf_2.png'
+// import { pdfjs } from "react-pdf";
 
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//     "pdfjs-dist/build/pdf.worker.min.js",
+//     import.meta.url
+//   ).toString();
+
+import {
+    CButton,
+  } from '@coreui/react'
 
 const SpecCandidate = () => {
     const navigate = useNavigate();
     const[record,setRecord] = useState([])
     const params = useParams(); // Get ID from URL
+    const [pdfFile, setPdfFile] = useState(null);
 
     //Get Specific Candidate Details
     const CandidateDetailById = async () =>
     {
-      await fetch(`http://localhost:4000/api/viewCandidate/${params.id}`)
-      .then(resposne=> resposne.json())
-          .then(res=>setRecord(res))
+        await fetch(`${SERVER_URL}/api/viewCandidate/${params.id}`)
+            .then(resposne=> resposne.json())
+            .then(res=>setRecord(res))
     }
     useEffect(()=> {
         CandidateDetailById(params.id);
     }, [params.id])
 
+    const showPdf = (pdf) => {
+        window.open(`${SERVER_URL}/files/resumes/${pdf}`)
+        //setPdfFile(`http://localhost:4000/files/resumes/${pdf}`)
+    };
+
+    //Back Page
+    const GoBack = async () =>{
+        navigate(`/circular/jobApplication/allCandidates`);
+    }
+
 
     return (
-        <div>
+        <div> 
+        <CButton color='secondary' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill" onClick={(e)=>GoBack()}>Go Back</CButton> 
         <center><h3>View Candidate Details</h3></center>
 
             <div class="container border shadow row mt-3 mb-5">
@@ -135,9 +157,32 @@ const SpecCandidate = () => {
                                 </div>
                             </Tab>
                             <Tab eventKey="resume" title="Resume">
-                                How Resume
+                                <div class="container mb-4">
+                                    <center><h6>File Name: {record.resume_file}</h6></center>
+                                    <div class='d-flex justify-content-center'>
+                                        <div class="card" style={{width:'10rem', cursor: 'pointer'}} onClick={(e)=>showPdf(record.resume_file)}>
+                                            <img class="card-img-top mt-2 mb-2" src={pdf2} alt="Card image cap"/>
+                                            <div class="card-body bg-black">
+                                                <center><p class="card-text" style={{color:'white', fontWeight:'bold', fontSize:'14px'}}>CV of {record.fullname}</p></center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* <iframe
+                                        src="https://drive.google.com/viewerng/viewer?embedded=true&url=http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&scrollbar=0"
+                                        height="100%"
+                                        width="100%"
+                                    ></iframe> */}
+                                </div>    
                             </Tab>
+                            <Tab eventKey="coverLetter" title="Cover Letter">
+                                <div class="container mb-4">
+                                    <p style={{whiteSpace:'pre-wrap', fontFamily:'arial', color:'black'}}>{record.cover_letter}</p>
+                                </div>
+                            </Tab>
+                            
                         </Tabs>
+                        
                     </div>
             </div>
 

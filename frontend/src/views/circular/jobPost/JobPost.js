@@ -1,9 +1,14 @@
 import React from 'react'
 import { useState , useEffect , useRef  } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {SERVER_URL} from '../../../services/helper'
 
 import {
   CButton,
   CCol,
+  CToast,
+  CToastBody,
+  CToastClose,
   CProgress,
   CRow,
   CTable,
@@ -21,11 +26,10 @@ import {
   CDatePicker,
 } from '@coreui/react'
 
-// import {SERVER_URL} from '../Services/helper'
-
 
 const JobPost = () => {
-  
+    const navigate = useNavigate();
+    
     //Values & Set Values
     const [designation,setDesignation] = useState('');
     const [department,setDepartment] = useState('');
@@ -41,6 +45,7 @@ const JobPost = () => {
     const [experienceDetails,setExperienceDetails] = useState('');
     const [techSkill,setTechSkill] = useState('');
     const [softSkill,setSoftSkill] = useState('');
+    const [duration,setDuration] = useState('');
     const [benefit,setBenefit] = useState('');
 
     const [submitted, setSubmitted] = useState(false);
@@ -52,10 +57,10 @@ const JobPost = () => {
   async function postJob(e) {
     e.preventDefault();
 
-      if (designation && department && employmentType && jobNature && jobLocation && requiredExperience && ageLimit && applDeadline && jobDescription && majorResponsibilities && educationalReq && experienceDetails && techSkill  && softSkill && benefit) {  
+      if (designation && department && employmentType && jobNature && jobLocation && requiredExperience && ageLimit && applDeadline && jobDescription && majorResponsibilities && educationalReq && experienceDetails && techSkill  && softSkill && duration && benefit) {  
         // setValid(true);
   
-        const response  = await fetch("http://localhost:4000/api/jobPost", {
+        const response  = await fetch(`${SERVER_URL}/api/jobPost`, {
           method:'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -75,6 +80,7 @@ const JobPost = () => {
             experienceDetails,
             techSkill,
             softSkill,
+            duration,
             benefit,
           }),
         })
@@ -85,7 +91,8 @@ const JobPost = () => {
             setMessage(data.error);
           } 
           else {
-            setMessage("Job Posted!");
+            setMessage("Job Posted Successfully");
+            navigate(`/circular/createdJobs`);
           }
         }
 
@@ -110,21 +117,7 @@ const JobPost = () => {
           </CCol>
 
           <CCol md={6}>
-            <CFormSelect id="dept" label="Department" name="department" value={department} onChange={e => setDepartment(e.target.value)} required>
-              <option selected>Select Department</option>
-              <option value="Finance and Accounts" >Finance and Accounts</option>
-              <option value="Administration" >Administration</option>		 
-              <option value="Procurement" >Procurement</option>
-              <option value="Marketing & Communication" >Marketing & Communication</option>
-              <option value="BYLC Ventures" >Ventures</option>
-              <option value="Grants" >Grants</option>
-              <option value="BYLCx" >BYLCx</option>
-              <option value="Office of Professional Development" >OPD</option>
-              <option value="Leadership Development and Training" >LDT</option>
-              <option value="PDT" >PDT</option>
-              <option value="Research Monitoring and Evaluation" >RME</option>
-			        <option value="USAID BIJOYEE PROJECT" >USAID BIJOYEE PROJECT</option>
-            </CFormSelect>
+            <CFormInput type="text" id="dept" label="Department" name="department" value={department} onChange={e => setDepartment(e.target.value)} required/>
           </CCol>
 
           <CCol md={4}>
@@ -132,7 +125,7 @@ const JobPost = () => {
               <option selected>Choose...</option>
               <option value="Full-Time">Full-Time</option>
               <option value="Part-Time">Part-Time</option>
-              <option value="Intern">Intern</option>
+              <option value="Contractual">Contractual</option>
             </CFormSelect>
           </CCol>
           <CCol md={4}>
@@ -146,18 +139,22 @@ const JobPost = () => {
           
           <CCol md={4}>
             <CFormSelect id="job_location" label="Job Location" name="job_location" value={jobLocation} onChange={e => setJobLocation(e.target.value)}>
+              <option>Choose...</option>
               <option value="Dhaka">Dhaka (HQ)</option>
               <option value="Chattogram">Chattogram</option>
               <option value="Manikganj">Manikganj</option>
+              <option value="Gazipur">Gazipur</option>
+              <option value="Dinajpur">Dinajpur</option>
+              <option value="Rangpur">Rangpur</option>
+              <option value="Cox Bazar">Cox Bazar</option>
             </CFormSelect>
           </CCol>
 
           <CCol md={4}>
-            <CFormInput type="number" id="exp_year" label="Experience Year" name="exp_year" value={requiredExperience} onChange={e => setRequiredExperience(e.target.value)} required/>
+            <CFormInput type="number" id="exp_year" label="Total Year of Experience" name="exp_year" value={requiredExperience} onChange={e => setRequiredExperience(e.target.value)} required/>
           </CCol>
           <CCol md={4}>
-            <CFormInput type="text
-            " id="ageLimit" label="Age Limit" name="ageLimit" value={ageLimit} onChange={e => setAgeLimit(e.target.value)}/>
+            <CFormInput type="text" id="ageLimit" label="Age Limit" name="ageLimit" value={ageLimit} onChange={e => setAgeLimit(e.target.value)}/>
           </CCol>
           <CCol md={4}> 
             <CFormInput type="date" id="appl_deadline" label="Application Deadline" name="appl_deadline" value={applDeadline} onChange={e => setApplDeadline(e.target.value)}/>
@@ -165,10 +162,10 @@ const JobPost = () => {
 
           {/* Required fields */}
           <CCol xs={12}>
-            <CFormTextarea  id="job_description" label="Purpose/Job Description" placeholder="Write here.." name="job_description" value={jobDescription} onChange={e => setJobDescription(e.target.value)}/>
+            <CFormTextarea  id="job_description" label="Purpose" placeholder="Write here.." name="job_description" value={jobDescription} onChange={e => setJobDescription(e.target.value)}/>
           </CCol>
           <CCol xs={12}>
-            <CFormTextarea  id="major_responsibilities" label="Core/Major Responsibilities" placeholder="Write here.." name="major_responsibilities" value={majorResponsibilities} onChange={e => setMajorResponsibilities(e.target.value)}/>
+            <CFormTextarea  id="major_responsibilities" label="Major Responsibilities" placeholder="Write here.." name="major_responsibilities" value={majorResponsibilities} onChange={e => setMajorResponsibilities(e.target.value)}/>
           </CCol>
           <CCol xs={12}>
             <CFormTextarea  id="educational_req" label="Education Requirements" placeholder="Write here.." name="educational_req" value={educationalReq} onChange={e => setEducationalReq(e.target.value)}/>
@@ -187,6 +184,10 @@ const JobPost = () => {
             <CFormTextarea  id="soft_skill" label="Required soft skills" placeholder="Write here.." name="soft_skill" value={softSkill} onChange={e => setSoftSkill(e.target.value)}/>
           </CCol>
 
+          <CCol md={6}>
+            <CFormInput type="text" id="duration" label="Duration" name="duration" value={duration} onChange={e => setDuration(e.target.value)} required/>
+          </CCol>
+
           {/* Optional fields */}
           <div class="mt-5"><h5>Benefits</h5></div>
           <CCol xs={12}>
@@ -198,9 +199,17 @@ const JobPost = () => {
             <CFormCheck type="checkbox" id="gridCheck" label="Check to confirm"/>
           </CCol>
           <CCol xs={12} class="mb-3">
-            <center><CButton type="submit">Submit</CButton></center>
+            <center><CButton type="submit" style={{fontWeight:'bold'}}>Submit</CButton></center>
           </CCol>
-          <center>{message && <span style={{color:'red',fontWeight:'bold'}}>{message}</span>}</center>
+          
+          <center>{message && 
+            <CToast autohide={true} visible={true} color="primary" className="text-white align-items-center">
+                <div className="d-flex">
+                  <CToastBody>{message}</CToastBody>
+                  <CToastClose className="me-2 m-auto" white />
+                </div>
+            </CToast>
+          }</center>
 
         </CForm>
 

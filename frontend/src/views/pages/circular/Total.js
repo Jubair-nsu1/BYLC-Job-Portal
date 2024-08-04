@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
-import slide1 from './images/slide1.jpg'
-import slide2 from './images/slide2.jpg'
+import slide1 from './images/pic1.jpg'
+import slide2 from './images/pic1.jpg'
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -88,15 +88,30 @@ const Total = () => {
                         <CAccordionItem itemKey={index}>
                             <CAccordionHeader ><strong style={{color:'darkgreen'}} >{item.designation}, {item.department}</strong></CAccordionHeader>
                             <CAccordionBody style={{ cursor: 'pointer' }} onClick={(e)=>JobDetails(item._id)}>
-                                <div class="d-flex justify-content-between">
-                                    <div><a style={{fontWeight:'bold'}}>Job Nature: </a><a>{item.job_nature}</a></div>
-                                    <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>{item.job_location}</a></div>
-                                    <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>{moment(item.application_deadline).format('DD MMM YYYY')}</a></div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-3">
-                                    <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>{item.employment_type}</a></div>
-                                    <div><a style={{fontWeight:'bold'}}>Experience Needed: </a><a>{item.experience_year} years</a></div>
-                                </div>
+
+                                    <div class='row g-3 mb-3'>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold'}}>Job Nature: </a><a>{item.job_nature}</a></div>        
+                                        </CCol>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold'}}>Job Location: </a><a>{item.job_location}</a></div>
+                                        </CCol>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold'}}>Application Deadline: </a><a>{moment(item.application_deadline).format('DD MMM YYYY')}</a></div>
+                                        </CCol>
+                                    </div>
+                                    <div class='row g-3'>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold'}}>Employment Type: </a><a>{item.employment_type}</a></div>    
+                                        </CCol>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold'}}>Experience Needed: </a><a>{item.experience_year} years</a></div>
+                                        </CCol>
+                                        <CCol md={4}>
+                                            <div><a style={{fontWeight:'bold', color:'blue', fontFamily:'cursive'}}>Click to view details </a></div>
+                                        </CCol>
+                                    </div>
+                                    
                             </CAccordionBody>
                         </CAccordionItem>
             )

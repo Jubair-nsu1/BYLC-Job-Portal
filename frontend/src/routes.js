@@ -1,13 +1,18 @@
 import React from 'react'
+import { HashRouter, Route, Routes } from 'react-router-dom'
+const user = localStorage.getItem("token");
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
+const Login = React.lazy(() => import('./views/pages/login/Login'))
 
 // Circular - 
 const JobPost = React.lazy(() => import('./views/circular/jobPost/JobPost')) // Jobs Created by HR
 const CreatedJobs = React.lazy(() => import('./views/circular/createdJobs/CreatedJobs')) // View Created Jobs
+const CandidatesPerJob = React.lazy(() => import('./views/circular/createdJobs/CandidatesPerJob')) // View Created Jobs
+const UpdateJob = React.lazy(() => import('./views/circular/createdJobs/UpdateJob')) // View Created Jobs
 const AllCandidates = React.lazy(() => import('./views/circular/jobApplication/JobApplication')) // View All candidates applied for jobs
 const SpecCandidate = React.lazy(() => import('./views/circular/jobApplication/SpecCandidate')) // View Specific candidate from all candidates
 const TalentPipeline = React.lazy(() => import('./views/circular/jobApplication/talentPipeline')) // Move eligible candidate to Talent Pipeline
@@ -106,11 +111,15 @@ const routes = [
 
   { path: '/circular/jobPost', name: 'JobPost', element: JobPost },
   { path: '/circular/createdJobs', name: 'CreatedJobs', element: CreatedJobs },
+  { path: '/circular/updateJob/:id', name: 'UpdateJob', element: UpdateJob },
+  { path: '/circular/createdJobs/candidates/:id', name: 'UpdateJob', element: CandidatesPerJob},
   { path: '/circular/jobApplication/allCandidates', name: 'AllCandidates', element: AllCandidates },
   { path: '/circular/jobApplication/:id', name: 'SpecCandidates', element: SpecCandidate },
   { path: '/circular/jobApplication/talentPipeline', name: 'TalentPipeline', element: TalentPipeline },
   
 ]
+
+//  {user? ({routes}) : (<Route path="/login" name="Login Page" element={<Login />} />)} 
 
 // CreatedJobs
 export default routes
