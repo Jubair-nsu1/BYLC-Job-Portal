@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react'
-import { BrowserRouter,HashRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './scss/style.scss'
 
 const loading = (
@@ -20,8 +20,6 @@ const Individual = React.lazy(() => import('./views/pages/circular/Individual'))
 const Total = React.lazy(() => import('./views/pages/circular/Total'))
 const Form = React.lazy(() => import('./views/pages/circular/Form'))
 
-//Dashboard
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 class App extends Component {
   render() {
@@ -29,11 +27,10 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-      {/* <HashRouter> */}
         <Suspense fallback={loading}>
           <Routes>
             {/* My created page */}
-            <Route exact path="/login" name="Login Page" element={<Login />} />
+            <Route path="/login" name="Login Page" element={<Login />} />
 
             <Route exact path="/" name="Career" element={<Total />} />  
             <Route exact path="/jobDetails/:id" name="Job Details" element={<Individual />} />
@@ -44,14 +41,15 @@ class App extends Component {
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             
-            {/* <Route path="*" name="dashboard" element={<DefaultLayout />} /> */}
-            {!user && <Route path="/*" name="dashboard" element={<DefaultLayout />} />}
             
-            {/* {user? (<Route path="/" name="dashboard" element={<Dashboard />} />) : (<Route path="/login" name="Login Page" element={<Login />} />)  } */}
+            {user? 
+              (<Route exact path="*" name="dashboard" element={<DefaultLayout />} />) 
+              : 
+              (<Route path="/login" name="Login Page" element={< Navigate replace to="/login" />} />)  
+            }
 
           </Routes>
         </Suspense>
-      {/* </HashRouter> */}
       </BrowserRouter>
     )
   }

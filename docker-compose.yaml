@@ -1,0 +1,53 @@
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"  
+    container_name: mongo-container
+    networks:
+      - mern-stack-network
+    volumes:
+      - mongoData:/data/db
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend  
+    ports:
+      - "4000:4000"
+    container_name: backend-container  
+    networks:
+      - mern-stack-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    # restart: always
+    depends_on:
+      - mongodb
+  
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend
+    ports:
+      - "3000:3000"  
+    container_name: frontend-container
+    networks:
+      - mern-stack-network
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+networks:
+  mern-stack-network:
+    driver: bridge
+
+volumes:
+  mongoData:
+

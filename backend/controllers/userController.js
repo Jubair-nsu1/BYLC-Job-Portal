@@ -5,31 +5,31 @@ const AdminData = require('../models/admin.model')
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body
-    console.log(req.body)
 
     // Check for user email
     const user = await AdminData.findOne({ email })
-  
-    if (user && (await bcrypt.compare(password, user.password))) {
-      console.log('Fullname: '+user.fullname)
-      console.log('UserID: '+user.id)
-      console.log('Email: '+user.email)
-      console.log('Token: '+generateToken(user._id))
-      res.json({
-        _id: user.id,
-        email: user.email,
-        token: generateToken(user._id),
-      })
-    } else {
-      res.status(400)
-      res.json({ status: 'error', error: 'Invalid credentials' })
-      console.log('Cant process')
+    
+    if (!user) {
+      return { status: 'error', error: 'Invalid login' }
     }
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user.password
+    )
+
+    if (isPasswordValid) {
+      const token = generateToken(user._id,user.email)    
+      return res.json({ status: 'ok', user: token, name:user.fullname })
+    } 
+    else {
+        return res.json({ status: 'error', user: false })
+    }
+
 }
   
 // Generate JWT
-const generateToken = (id) => {
-    return jwt.sign({ id }, 'secret123', {
+const generateToken = (id,email) => {
+    return jwt.sign({ id,email }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     })
 }

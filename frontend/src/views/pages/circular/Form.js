@@ -201,7 +201,7 @@ const Form = () => {
                                     <div class='mb-2'> Please wait for the response. </div>
                                     <div class='mb-3'> Check your email for details and follow-up. </div>
                                     <div class='mb-3'>
-                                        <Link to='/career'><a style={{color:'darkgreen', fontWeight:'bold'}}>View all opportunities at BYLC</a></Link>
+                                        <Link to='/'><a style={{color:'darkgreen', fontWeight:'bold'}}>View all opportunities at BYLC</a></Link>
                                     </div>
                                     <CButton target="_blank" href='http://www.bylc.org' color='success' style={{color:'white', fontWeight:'bold'}} >Visit BYLC website</CButton>
                                 </center>

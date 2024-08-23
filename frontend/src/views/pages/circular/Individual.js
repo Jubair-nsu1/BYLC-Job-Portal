@@ -83,7 +83,7 @@ const individual = () => {
       <Navbar/>
 
       <div class="container-sm mt-3">        
-        <Link to='/career'><CButton color='secondary' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill">Go Back</CButton></Link>
+        <Link to='/'><CButton color='secondary' style={{color:'black', fontWeight:'bold'}} variant="outline" shape="rounded-pill">Go Back</CButton></Link>
 
         <CRow>
           <CCol md={9}>

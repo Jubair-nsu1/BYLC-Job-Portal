@@ -66,8 +66,8 @@ const Login = () => {
                     console.log(data.name)
                     console.log(data.user)
   
-                    //window.location = "/dashboard";
-                    navigate('/dashboard');
+                    window.location = "/dashboard";
+                    // navigate('/dashboard');
                     // setSuccess(true);
                     // setLoading(false);
                 } 

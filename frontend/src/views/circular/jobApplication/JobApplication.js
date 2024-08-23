@@ -18,6 +18,14 @@ import {
   CCardFooter,
   CCardHeader,
   CCol,
+  CProgress,
+  CRow,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
   CWidgetStatsF,
 } from '@coreui/react'
 
@@ -158,54 +166,49 @@ const JobApplication = () => {
 
               </div>
 
-
-
-                <div class="mt-4">
-                  <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead class="thead-light">
-                          <tr>
-                            <th style={{fontWeight:'bold'}}>ID</th>
-                            <th style={{fontWeight:'bold'}}>Department</th>
-                            <th style={{fontWeight:'bold'}}>Position</th>
-                            <th style={{fontWeight:'bold'}}>Name</th>
-                            <th style={{fontWeight:'bold'}}>University</th>
-                            <th style={{fontWeight:'bold'}}>Experience</th>
-                            <th style={{fontWeight:'bold'}}>Age</th>
-                            <th style={{fontWeight:'bold'}}>Applied On</th>
-                            <th style={{fontWeight:'bold'}}>Actions</th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {filteredCandidates.length > 0 ?
-                          
+              <div class="mt-4">
+                <CTable align="middle" className="mb-0 border" hover responsive >
+                  <CTableHead color="primary">
+                    <CTableRow>
+                      <CTableHeaderCell className="text-center">
+                        <CIcon icon={cilPeople} />
+                      </CTableHeaderCell>
+                      <CTableHeaderCell>Department</CTableHeaderCell>
+                      <CTableHeaderCell >Position</CTableHeaderCell>
+                      <CTableHeaderCell>Name</CTableHeaderCell>
+                      <CTableHeaderCell >University</CTableHeaderCell>
+                      <CTableHeaderCell>Experience</CTableHeaderCell>
+                      <CTableHeaderCell>Age</CTableHeaderCell>
+                      <CTableHeaderCell>Applied On</CTableHeaderCell>
+                      <CTableHeaderCell>Actions</CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                      {filteredCandidates.length > 0 ?
+                            
                             filteredCandidates.map((item,index)=>
-                              <tr key={index}> 
-                                <td>{index + 1}</td>
-                                <td>{item.department}</td>
-                                <td>{item.position}</td>
-                                <td>{item.fullname}</td>
-                                <td>{item.university}</td>
-                                <td>{item.work_experience}</td>
-                                <td>{getAge(item.dob)}</td>
-                                <td>{moment(item.apply_date).format('DD MMM YYYY')}</td>
-                                <td>
+                              <CTableRow v-for="item in tableItems" key={index}> 
+                                <CTableDataCell>{index + 1}</CTableDataCell>
+                                <CTableDataCell>{item.department}</CTableDataCell>
+                                <CTableDataCell>{item.position}</CTableDataCell>
+                                <CTableDataCell>{item.fullname}</CTableDataCell>
+                                <CTableDataCell>{item.university}</CTableDataCell>
+                                <CTableDataCell>{item.work_experience}</CTableDataCell>
+                                <CTableDataCell>{getAge(item.dob)}</CTableDataCell>
+                                <CTableDataCell>{moment(item.apply_date).format('DD MMM YYYY')}</CTableDataCell>
+                                <CTableDataCell>
                                   <button target="_blank" class="btn btn-info" onClick={(e)=>candidateDetails(item._id)} >Details</button>
-                                </td>
-                              </tr>
+                                </CTableDataCell>
+                              </CTableRow>
                             )
                             :
                             <div class='d-flex justify-content-center mt-3 mb-3'><a style={{fontWeight:'bold', color:'red'}}>No Data Found</a></div>
-                            
                           }
-                        </tbody>
-                        
-                    </table>
-                  </div>
-                </div>
-          </div>
+                  </CTableBody>
+                </CTable>
+              </div>
 
+          </div>
     </div>
   )
 }

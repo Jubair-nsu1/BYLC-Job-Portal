@@ -9,7 +9,7 @@ const userRoute = require("./routes/userRoutes");
 
 //Server setup
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT;
 app.listen(PORT, (err) => {
     if (err) {
         console.log(err);
@@ -24,6 +24,9 @@ app.listen(PORT, (err) => {
 const connectDB = require("./config/db");
 connectDB();
 
+//SeedDB (Admin Data)
+const seedDB = require("./config/seed")
+seedDB();
 
 // Use CORS middleware to allow requests from the frontend
 app.use(
